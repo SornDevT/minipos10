@@ -109,7 +109,19 @@ export default {
                             email: this.email,
                             password: this.password
                         }).then((res)=>{
-                            console.log(res.data);
+                             console.log(res.data.success);
+                             if(res.data.success){
+                              this.show_error = false;
+                               this.text_error = '';
+
+                               this.$router.push("/login");
+
+                             } else {
+                              // console.log('err')
+                               this.show_error = true;
+                               this.text_error = res.data.message;
+                             }
+
                         }).catch((err)=>{
                             console.log(err)
                         });

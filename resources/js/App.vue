@@ -107,9 +107,9 @@
                 <div class="dropdown-divider"></div>
               </li>
               <li>
-                <a class="dropdown-item" href="auth-login-basic.html">
+                <a class="dropdown-item" href="javascript:void(0);" @click="logout()">
                   <i class="bx bx-power-off me-2"></i>
-                  <span class="align-middle">Log Out</span>
+                  <span class="align-middle">ອອກຈາກລະບົບ</span>
                 </a>
               </li>
             </ul>
@@ -190,7 +190,7 @@
 <script>
 
 import { useStore } from './store/auth' 
-
+import axios from 'axios';
 export default {
     name: 'Minipos10App',
 
@@ -210,7 +210,27 @@ export default {
     },
 
     methods: {
-        
+      logout(){
+          const store = useStore();
+          const token = store.get_token;
+
+          axios.post("api/logout",{},{ headers:{ Authorization: 'Bearer '+ token}}).then((res)=>{
+
+                    if(res.data.success){
+                      /// ບັນທຶກຂໍ້ມູນ token ແລະ user ລົງໃນ localstorage
+                    localStorage.removeItem("web_token");
+                    localStorage.removeItem("web_user");
+                    store.remove_token();
+                    store.remove_user();
+                    this.$router.push("/login");
+                    }
+                    
+
+                }).catch((err)=>{
+                  console.log(err);
+                });
+
+      }
     },
 };
 </script>
