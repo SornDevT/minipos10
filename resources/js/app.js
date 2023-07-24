@@ -7,8 +7,15 @@ import Menu from './components/Menu.vue'
 import { createPinia } from 'pinia';
 const pinia = createPinia()
 
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
+import Pagination from './components/Pagination.vue';
+
 const app = createApp(App)
 app.component('Menubar',Menu);
+app.component('pagination',Pagination);
+app.use(VueSweetalert2);
 app.use(router);
 app.use(pinia);
 app.mount('#app-vue');
