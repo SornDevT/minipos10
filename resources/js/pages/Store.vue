@@ -12,7 +12,13 @@
             <button class="btn btn-secondary" @click="CancelStore()"><i class='bx bx-x'></i> ຍົກເລີກ</button>                
         </div>
         <div class="row">
-            <div class=" col-md-4">pic</div>
+            <div class=" col-md-4 text-center" style="position: relative;">
+              <button type="button" v-if="FormStore.image" @click="RemoveImg()" class="btn rounded-pill btn-icon btn-danger" style="position: absolute; top: 0px;  right: 4px;">
+                <i class='bx bx-trash fs-4'></i>
+              </button>
+              <img :src="image_pre" class=" rounded cursor-pointer" @click="$refs.img_store.click()" style=" width: 80%;" alt="">
+              <input type="file" ref="img_store" style=" display: none;" @change="onSelect"> 
+            </div>
             <div class="col-md-8"> 
 
            <!-- {{ FormStore  }} <br> -->
@@ -62,8 +68,8 @@
       <table class="table table-bordered">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>ຮູບ</th>
+            <th width="80">ID</th>
+            <th width="120">ຮູບ</th>
             <th>ຊື່ສິນຄ້າ</th>
             <th>ລາຄາຊື້</th>
             <th>ຈັດການ</th>
@@ -72,7 +78,10 @@
         <tbody>
           <tr v-for="list in StoreData.data" :key="list.id">
             <td>{{ list.id }}</td>
-            <td>image</td>
+            <td>
+              <img :src="url+'/assets/img/'+list.image" v-if="list.image" class=" rounded w-100" alt="">
+              <img :src="url+'/assets/img/no_image.jpg'" v-else class=" rounded w-100" alt="">
+            </td>
             <td> {{ list.name  }} </td>
             <td> {{ list.price_buy }} </td>
             <td>
@@ -118,11 +127,13 @@ export default {
             EditID:'',
             FormStore:{
                 name:'',
-                imagse:'',
+                image:'',
                 amount:'',
                 price_sell:'',
                 price_buy:''
             },
+            image_pre: window.location.origin+'/assets/img/add-img.png',
+            url: window.location.origin
         };
     },
 
@@ -154,6 +165,19 @@ export default {
         });
 
       },
+      RemoveImg(){
+        this.FormStore.image = ""
+        this.image_pre = window.location.origin+'/assets/img/add-img.png'
+      },
+      onSelect(event){
+        // console.log(event)
+        this.FormStore.image = event.target.files[0];
+        let reader = new FileReader();
+        reader.readAsDataURL(this.FormStore.image);
+        reader.addEventListener("load",function(){
+          this.image_pre = reader.result;
+        }.bind(this),false);
+      },
       ChangeSort(){
         if(this.sort == "asc"){
           this.sort = "desc"
@@ -164,11 +188,12 @@ export default {
       },
         AddStore(){
             this.FormStore.name = ''
-            this.FormStore.imagse = ''
+            this.FormStore.image = ''
             this.FormStore.amount = ''
             this.FormStore.price_sell = ''
             this.FormStore.price_buy = ''
             this.ShowForm = true
+            this.image_pre = window.location.origin+'/assets/img/add-img.png'
         },
         CancelStore(){
             this.ShowForm = false
@@ -184,6 +209,13 @@ export default {
                 console.log(res.data)
 
                 this.FormStore = res.data
+
+                if(res.data.image){
+                  this.image_pre = this.url + '/assets/img/' + res.data.image
+                } else {
+                  this.image_pre = this.url + '/assets/img/add-img.png'
+                }
+
 
                 }).catch((error)=>{
                   console.log(error);
