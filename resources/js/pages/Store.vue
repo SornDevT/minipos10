@@ -83,7 +83,7 @@
               <img :src="url+'/assets/img/no_image.jpg'" v-else class=" rounded w-100" alt="">
             </td>
             <td> {{ list.name  }} </td>
-            <td> {{ list.price_buy }} </td>
+            <td> {{ formatPrice(list.price_buy) }} ກີບ </td>
             <td>
               <div class="dropdown">
                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
@@ -151,6 +151,10 @@ export default {
     },
 
     methods: {
+      formatPrice(value) {
+            let val = (value / 1).toFixed(0).replace(",", ".");
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        },
       showAlert() {
         // Use sweetalert2
         // this.$swal('Hello Vue world!!!');
