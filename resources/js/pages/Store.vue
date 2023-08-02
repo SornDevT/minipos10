@@ -26,15 +26,15 @@
           <input type="text" class="form-control mb-2" id="name" v-model="FormStore.name" placeholder="ກະລຸນາປ້ອນຊື່..." >
 
           <label for="amount" class="form-label fs-6">ຈຳນວນ <span class=" text-danger">*</span></label>
-          <input type="text" class="form-control mb-2" id="amount" v-model="FormStore.amount" placeholder="ກະລຸນາປ້ອນຈຳນວນ..." >
+          <cleave :options="options" class="form-control mb-2" id="amount" v-model="FormStore.amount" placeholder="ກະລຸນາປ້ອນຈຳນວນ..." />
          <div class="row">
             <div class="col-md-6">
                 <label for="price_sell" class="form-label fs-6">ລາຄາຊື້ <span class=" text-danger">*</span></label>
-                <input type="text" class="form-control mb-2" v-model="FormStore.price_buy" id="price_sell" placeholder="ກະລຸນາປ້ອນລາຄາຊື້..." >
+                <cleave :options="options"  class="form-control mb-2" v-model="FormStore.price_buy" id="price_sell" placeholder="ກະລຸນາປ້ອນລາຄາຊື້..." />
             </div>
             <div class="col-md-6">
                 <label for="price_buy" class="form-label fs-6">ລາຄາຂາຍ <span class=" text-danger">*</span></label>
-          <input type="text" class="form-control mb-2" id="price_buy" v-model="FormStore.price_sell" placeholder="ກະລຸນາປ້ອນລາຄາຂາຍ..." >
+          <cleave :options="options" class="form-control mb-2" id="price_buy" v-model="FormStore.price_sell" placeholder="ກະລຸນາປ້ອນລາຄາຂາຍ..." />
             </div>
          </div>
 
@@ -132,6 +132,17 @@ export default {
                 price_sell:'',
                 price_buy:''
             },
+            options: {
+                  // prefix: '₭ ',
+                  numeral: true,
+                  numeralPositiveOnly: true,
+                  noImmediatePrefix: true,
+                  rawValueTrimPrefix: true,
+                  numeralIntegerScale: 10,
+                  numeralDecimalScale: 2,
+                  numeralDecimalMark: ',',
+                  delimiter: '.'
+                },
             image_pre: window.location.origin+'/assets/img/add-img.png',
             url: window.location.origin
         };

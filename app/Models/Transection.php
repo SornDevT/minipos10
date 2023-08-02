@@ -14,6 +14,6 @@ class Transection extends Model
         'product_id',
         'amount',
         'price',
-        'tran_type',
+        'tran_detail',
     ];
 }
