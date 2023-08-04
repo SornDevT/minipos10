@@ -187,6 +187,21 @@ export default {
     },
 
     methods: {
+
+       async openLink(link) {
+            
+            const response = await fetch(`${link}`, {
+                headers: {
+                'Authorization': `Bearer ${this.store.get_token}`
+                }
+            });
+
+            const html = await response.text();
+            const blob = new Blob([html], { type: 'text/html' });
+            const blobUrl = URL.createObjectURL(blob);
+            window.open(blobUrl, '_blank');
+
+            },
         AddNum(num){
             if(num == '-'){
                 this.CashAmount = this.CashAmount.slice(0,-1)
@@ -215,6 +230,9 @@ export default {
                     this.CashAmount = ''
                     this.GetAllStore()
                     $('#ConfirmToPayModal').modal('hide')
+                    
+                    this.openLink(window.location.origin+'/api/bills/print/'+res.data.bill_id)
+
 
                  } else {
 
