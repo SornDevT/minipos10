@@ -12,6 +12,76 @@ class TransectionController extends Controller
 {
     //
 
+    public function index(Request $request){
+
+        try{// ລະບົບທຳການຄຳນວນ-ເຮັດວຽກ
+
+          
+            $sort = \Request::get("sort");
+            $lp = \Request::get("lp");
+            
+            // return $request;
+
+
+            $month_type = $request->month_type;
+            $dmy = $request->dmy;
+
+            if($dmy == ''){
+                $tran = Transection::orderBy("id",$sort)
+                ->paginate($lp)
+                ->toArray();
+                return array_reverse($tran);
+
+            } else {
+
+                $m = explode("-",$dmy)[1];
+                $y = explode("-",$dmy)[0];
+
+                if($month_type == "m"){
+
+                    $tran = Transection::orderBy("id",$sort)
+                    ->whereYear("created_at","=",$y)
+                    ->whereMonth("created_at","=",$m)
+                    ->paginate($lp)
+                    ->toArray();
+                    return array_reverse($tran);
+
+                } else if($month_type == "y"){
+
+                    $tran = Transection::orderBy("id",$sort)
+                    ->whereYear("created_at","=",$y)
+                    ->paginate($lp)
+                    ->toArray();
+                    return array_reverse($tran);
+
+                }
+
+            }
+
+            
+
+          
+            $success = true;
+            $message = "ບັນທຶກຂໍ້ມູນ ສຳເລັດ!";
+ 
+
+        } catch (\Illuminate\Database\QueryException $ex){ 
+            // ດຶງຂໍ້ຄວາມ error ຈາກລະບົບອອກມາ
+            $success = false;
+            $message = $ex->getMessage();
+            $bill_id = null;
+        }
+
+        $response = [
+ 
+            "success" => $success,
+            "message" => $message,
+        ];
+
+        return response()->json($response);
+
+    }
+
     public function add(Request $request){
         try{// ລະບົບທຳການຄຳນວນ-ເຮັດວຽກ
 
