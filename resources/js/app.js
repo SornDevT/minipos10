@@ -13,9 +13,12 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import Pagination from './components/Pagination.vue';
 import Cleave from 'vue-cleave-component';
 
+import GrapBoard from './components/GrapBoard.vue'
+
 const app = createApp(App)
 app.component('Menubar',Menu);
 app.component('pagination',Pagination);
+app.component('GrapBoard',GrapBoard);
 app.use(VueSweetalert2);
 app.use(router);
 app.use(pinia);

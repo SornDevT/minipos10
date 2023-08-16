@@ -1,5 +1,7 @@
 <template>
     <div>
+      <GrapBoard />
+      
         <div class="card">
   <h5 class="card-header">ສະຕ໋ອກສິນຄ້າ</h5>
   <div class="card-body">

@@ -1,4 +1,5 @@
 <template>
+  <GrapBoard />
     <div class="card">
   <h5 class="card-header">ລາຍການເຄື່ອນໄຫວ ທຸລະກຳ</h5>
   <div class="card-body">
